@@ -139,6 +139,12 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
 
 ARG INSTALL_ZIP_ARCHIVE=false
 RUN if [ ${INSTALL_ZIP_ARCHIVE} = true ]; then \
+    apt-get update && \
+    apt-get install libldap2-dev -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap && \
+
     # Install the zip extension
     docker-php-ext-install zip \
 ;fi
